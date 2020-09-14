@@ -1,0 +1,35 @@
+.filmBlock {
+  display: flex;
+}
+.filmImg {
+  margin: 20px;
+}
+.filmGenres {
+  display: flex;
+}
+.additionalBlock {
+  margin-left: 20px;
+}
+
+.additionalLink {
+  margin-bottom: 10px;
+}
+
+.additionalLink a {
+  font-size: 20px;
+}
+
+.actorsList {
+  display: flex;
+  flex-wrap: wrap;
+}
+.actorsItem {
+  margin-left: 60px;
+  text-align: center;
+  width: 300px;
+}
+
+.filmList {
+  display: flex;
+  flex-wrap: wrap;
+}

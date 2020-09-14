@@ -1,0 +1,34 @@
+.navList {
+  display: flex;
+  margin-left: 50px;
+}
+nav {
+  border-bottom: 1px solid black;
+}
+.navListItem {
+  display: flex;
+  padding: 20px;
+}
+.navListItem a {
+  font-size: 20px;
+}
+:global(li) {
+  list-style-type: none;
+}
+:global(ul) {
+  margin-left: 0;
+  padding-left: 0;
+}
+:global(a) {
+  text-decoration: none;
+  color: black;
+}
+:global(a:visited) {
+  color: black;
+}
+:global(a:active) {
+  color: red;
+}
+:global(a:hover) {
+  color: red;
+}
