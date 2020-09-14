@@ -21,6 +21,7 @@ export function Home() {
   useEffect(() => {
     getPopular();
   }, []);
+
   return (
     <Suspense fallback={<h2>Загрузка...</h2>}>
       <div className={styles.filmList}>

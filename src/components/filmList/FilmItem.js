@@ -2,12 +2,22 @@ import React, { useState, useEffect, lazy, Suspense } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import styles from "./Film.module.css";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 
 const FilmItemMain = lazy(() => import("./filmItemMark/FilmItemMain"));
 const Cast = lazy(() => import("./filmItemMark/Cast"));
 const Reviews = lazy(() => import("./filmItemMark/Reviews"));
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+}));
 export function FilmItem(prop) {
+  const classes = useStyles();
   const id = prop.match.params.movieId;
   const API_KEY = "bc91f782d3f4017afb52e00498ab052a";
   axios.defaults.baseURL = "https://api.themoviedb.org";
@@ -28,9 +38,20 @@ export function FilmItem(prop) {
     getSingleFilm();
   }, []);
 
+  // function click() {
+  //   console.log(customHistory);
+  // }
+
   return (
     <>
       <Suspense fallback={<h2>Загрузка...</h2>}>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={prop.history.goBack}
+        >
+          Go back
+        </Button>
         <div className={styles.filmBlock} key={film.id}>
           <div className={styles.filmImg}>
             <img
