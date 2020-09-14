@@ -17,12 +17,14 @@ export default function Nav() {
         <nav>
           <ul className={styles.navList}>
             <li className={styles.navListItem}>
-              <NavLink exact to="/">
+              <NavLink exact to="/" activeClassName="active">
                 Home
               </NavLink>
             </li>
             <li className={styles.navListItem}>
-              <NavLink to="/movies">Movies</NavLink>
+              <NavLink to="/movies" activeClassName="active">
+                Movies
+              </NavLink>
             </li>
           </ul>
         </nav>
@@ -30,7 +32,6 @@ export default function Nav() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/movies/:movieId" component={FilmItem} />
-
           <Route exact path="/movies" component={Movies} />
         </Switch>
       </div>

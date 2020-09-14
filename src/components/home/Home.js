@@ -1,12 +1,14 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import axios from "axios";
 import styles from "../filmList/Film.module.css";
+import { useLocation } from "react-router-dom";
 
 const FilmList = lazy(() => import("../filmList/FilmList"));
 
 export function Home() {
   axios.defaults.baseURL = "https://api.themoviedb.org";
   const [popular, setPopular] = useState([]);
+  let location = useLocation();
   const API_KEY = "bc91f782d3f4017afb52e00498ab052a";
   async function getPopular() {
     try {
@@ -25,7 +27,7 @@ export function Home() {
   return (
     <Suspense fallback={<h2>Загрузка...</h2>}>
       <div className={styles.filmList}>
-        <FilmList item={popular} prop={"/movies"} />
+        <FilmList item={popular} from={location.pathname} />
       </div>
     </Suspense>
   );

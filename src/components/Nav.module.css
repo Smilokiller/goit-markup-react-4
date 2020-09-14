@@ -12,6 +12,7 @@ nav {
 .navListItem a {
   font-size: 20px;
 }
+
 :global(li) {
   list-style-type: none;
 }
@@ -26,7 +27,7 @@ nav {
 :global(a:visited) {
   color: black;
 }
-:global(a:active) {
+:global(a.active) {
   color: red;
 }
 :global(a:hover) {

@@ -1,6 +1,13 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import axios from "axios";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 import styles from "./Film.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -23,7 +30,8 @@ export function FilmItem(prop) {
   axios.defaults.baseURL = "https://api.themoviedb.org";
 
   const [film, setFilm] = useState({});
-
+  let history = useHistory();
+  let location = useLocation();
   const getSingleFilm = async () => {
     try {
       const filmItem = await axios.get(
@@ -38,18 +46,23 @@ export function FilmItem(prop) {
     getSingleFilm();
   }, []);
 
-  // function click() {
-  //   console.log(customHistory);
-  // }
+  function goBack() {
+    history.push({
+      pathname: location.state.from,
+      search: location.state.inputWord
+        ? `?query=${location.state.inputWord}`
+        : "",
+    });
+  }
+  function addDefaultSrc(ev) {
+    ev.target.src =
+      "https://vignette.wikia.nocookie.net/roblox/images/7/7b/Err.png/revision/latest/top-crop/width/360/height/450?cb=20200425195944&path-prefix=ru";
+  }
 
   return (
     <>
       <Suspense fallback={<h2>Загрузка...</h2>}>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={prop.history.goBack}
-        >
+        <Button variant="contained" color="secondary" onClick={goBack}>
           Go back
         </Button>
         <div className={styles.filmBlock} key={film.id}>
@@ -57,12 +70,13 @@ export function FilmItem(prop) {
             <img
               src={`https://image.tmdb.org/t/p/w300${film.poster_path}`}
               alt={film.title}
+              onError={addDefaultSrc}
             ></img>
           </div>
           <div>
             <h1>{film.title}</h1>
 
-            <p>User Score {film.vote_average}</p>
+            <p>User Score: {film.vote_average}</p>
             <h2>Overview</h2>
             <p>{film.overview}</p>
             <h2>Genres</h2>

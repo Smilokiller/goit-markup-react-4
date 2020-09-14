@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import styles from "./Film.module.css";
+
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
@@ -18,9 +19,8 @@ const useStyles = makeStyles({
   },
 });
 
-function FilmList({ item, prop }) {
+function FilmList({ item, from, inputWord }) {
   const classes = useStyles();
-
   return (
     <div className={styles.filmList}>
       {item.map((el) => (
@@ -28,7 +28,7 @@ function FilmList({ item, prop }) {
           <CardActionArea>
             <CardMedia
               className={classes.media}
-              image={`https://image.tmdb.org/t/p/w300${el.poster_path}`}
+              image={`https://image.tmdb.org/t/p/w300${el.backdrop_path}`}
               title={el.title}
             />
             <CardContent>
@@ -42,7 +42,14 @@ function FilmList({ item, prop }) {
           </CardActionArea>
           <CardActions>
             <Button size="small" color="primary">
-              <Link to={`${prop}/${el.id}`}>Learn More</Link>
+              <Link
+                to={{
+                  pathname: `/movies/${el.id}`,
+                  state: { from, inputWord },
+                }}
+              >
+                Learn More
+              </Link>
             </Button>
           </CardActions>
         </Card>

@@ -1,8 +1,9 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState, lazy, Suspense, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import queryString from "query-string";
 
 const FilmList = lazy(() => import("../filmList/FilmList"));
 const useStyles = makeStyles((theme) => ({
@@ -20,10 +21,11 @@ export function Movies(prop) {
   const [inputWord, setInputWord] = useState("");
   axios.defaults.baseURL = "https://api.themoviedb.org";
   const API_KEY = "bc91f782d3f4017afb52e00498ab052a";
-  async function getPopular() {
+  const values = queryString.parse(prop.location.search);
+  async function getPopular(values) {
     try {
       const searchImages = await axios.get(
-        `/3/search/movie?api_key=${API_KEY}&language=en-US&query=${inputWord}&page=1&include_adult=false`
+        `/3/search/movie?api_key=${API_KEY}&language=en-US&query=${values}&page=1&include_adult=false`
       );
       setSearch(searchImages.data.results);
     } catch (e) {
@@ -37,10 +39,21 @@ export function Movies(prop) {
   }
 
   function handleSubmit(evt) {
+    prop.history.push({
+      ...prop.location.pathname,
+      search: `query=${inputWord}`,
+    });
+
     evt.preventDefault();
-    getPopular();
     setInputWord("");
   }
+  useEffect(() => {
+    if (values.query === undefined) {
+    } else {
+      getPopular(values.query);
+    }
+  }, [values.query]);
+
   return (
     <>
       <Suspense fallback={<h2>Загрузка...</h2>}>
@@ -63,7 +76,12 @@ export function Movies(prop) {
             Find
           </Button>
         </form>
-        <FilmList item={search} prop={prop.match.url} />
+
+        <FilmList
+          item={search}
+          from={prop.match.url}
+          inputWord={values.query}
+        />
       </Suspense>
     </>
   );
